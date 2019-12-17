@@ -23,7 +23,7 @@ function Save_To_File(vp, varargin)
 	volDataset = vp.volume;
 	message = ['Saving dataset to', datasetPath, '... '];
 	vp.VPrintf(message, 1);
-	save(datasetPath, 'volDataset');
+	save(datasetPath, 'volDataset', '-v7.3', '-nocompression');
 	vp.VPrintf('done!\n', 0);
 
 end

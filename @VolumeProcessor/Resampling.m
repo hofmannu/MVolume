@@ -7,7 +7,7 @@
 
 function Resampling(vp, varargin)
 
-	vp.VPrintf('Resmapling volume... ', 1);
+	vp.VPrintf('Resampling volume... ', 1);
 
 	% default settings
 	resolution = [25e-6, 25e-6, 25e-6];
