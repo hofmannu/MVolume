@@ -51,13 +51,13 @@ function Export_Paraview(vp, varargin)
 				if (xCrop(1) >= xCrop(2))
 					error('xCrop(2) must be bigger then xCrop(1)');
 				end
-				if (xCrop(1) < vp.volume.xVec(1))
+				if (xCrop(1) < vp.volume.vecX(1))
 					warning('Requested x crop exceeds FOV, reducing to boundary');
-					xCrop(1) = vp.volume.xVec(1);
+					xCrop(1) = vp.volume.vecX(1);
 				end
-				if (xCrop(2) > vp.volume.xVec(end))
+				if (xCrop(2) > vp.volume.vecX(end))
 					warning('Requested x crop exceeds FOV, reducing to boundary');
-					xCrop(2) = vp.volume.xVec(end);
+					xCrop(2) = vp.volume.vecX(end);
 				end
 			case 'yCrop'
 				yCrop = varargin{iargin + 1};
@@ -66,13 +66,13 @@ function Export_Paraview(vp, varargin)
 					error('yCrop(2) must be bigger then yCrop(1)');
 				end
 			
-				if (yCrop(1) < vp.volume.yVec(1))
+				if (yCrop(1) < vp.volume.vecY(1))
 					warning('Requested y crop exceeds FOV, reducing to boundary');
-					yCrop(1) = vp.volume.yVec(1);
+					yCrop(1) = vp.volume.vecY(1);
 				end
-				if (yCrop(2) > vp.volume.yVec(end))
+				if (yCrop(2) > vp.volume.vecY(end))
 					warning('Requested y crop exceeds FOV, reducing to boundary');
-					yCrop(2) = vp.volume.yVec(end);
+					yCrop(2) = vp.volume.vecY(end);
 				end
 			case 'zCrop'
 				zCrop = varargin{iargin + 1};
@@ -81,13 +81,13 @@ function Export_Paraview(vp, varargin)
 					error('zCrop(2) must be bigger then zCrop(1)');
 				end
 			
-				if (zCrop(1) < vp.volume.zVec(1))
+				if (zCrop(1) < vp.volume.vecZ(1))
 					warning('Requested z crop exceeds FOV, reducing to boundary');
-					zCrop(1) = vp.volume.zVec(1);
+					zCrop(1) = vp.volume.vecZ(1);
 				end
-				if (zCrop(2) > vp.volume.zVec(end))
+				if (zCrop(2) > vp.volume.vecZ(end))
 					warning('Requested z crop exceeds FOV, reducing to boundary');
-					zCrop(2) = vp.volume.zVec(end);
+					zCrop(2) = vp.volume.vecZ(end);
 				end
 			otherwise
 				error('Unknown option passed');
@@ -120,18 +120,6 @@ function Export_Paraview(vp, varargin)
 				error('Unknown option passed for our nonfinite handling');
 		end
 
-		% if requested, normalize volume between 0 and 1
-		if flagNormalize
-			vp.volume.vol = vp.volume.vol - vp.volume.minVol; % scale between 0 and 1
-			vp.volume.vol = vp.volume.vol / vp.volume.maxVol;
-		end
-
-		if ~isempty(vp.volume.name)
-			name = vp.volume.name; 
-		else
-			name = 'exportedDataset';
-		end
-
 		if isempty(xCrop)
 			xIdxMin = 1;
 			xIdxMax = vp.volume.nX;
@@ -159,6 +147,19 @@ function Export_Paraview(vp, varargin)
 			[~, zCropMax] = min(abs(zCrop(2) - vp.volume.vecZ));
 		end
 		zCropIdx = zCropMin:zCropMax;
+		
+		% if requested, normalize volume between 0 and 1
+		if flagNormalize
+			vp.volume.vol = vp.volume.vol - min(vp.volume.vol(zCropIdx, xCropIdx, yCropIdx), [], 'all'); % scale between 0 and 1
+			vp.volume.vol = vp.volume.vol / max(vp.volume.vol(zCropIdx, xCropIdx, yCropIdx), [], 'all');
+		end
+
+		if ~isempty(vp.volume.name)
+			name = vp.volume.name; 
+		else
+			name = 'exportedDataset';
+		end
+
 
 		vtkwrite(... % actual export function
 			datasetPath, ... % output path for vtk file

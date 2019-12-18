@@ -7,7 +7,8 @@
 % the point spread function to reduce image blurring.
 
 function Deconvolve(vp, varargin)
-	
+
+	tic
 	% default settings
 	method = 'blind';
 	psf = [];
@@ -56,7 +57,7 @@ function Deconvolve(vp, varargin)
 		case 'wiener'
 			% deblur image based on wiener filter algorithm
 			% https://de.mathworks.com/help/images/ref/deconvwnr.html
-			vp.volume.vol = deconvwnr(vp.volume.vol, psf);
+			vp.volume.vol = deconvwnr(double(vp.volume.vol), double(psf));
 		otherwise
 			error('Unknown deconvolution method');
 	end
