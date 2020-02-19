@@ -10,9 +10,9 @@ function Load_From_File(vd, path)
 		vd.vol = vol;
 		clear vol;
 
-		load(path, 'res');
-		vd.res = res;
-		clear res;
+		load(path, 'dr');
+		vd.dr = dr;
+		clear dr;
 
 		load(path, 'origin');
 		vd.origin = origin;
@@ -25,4 +25,4 @@ function Load_From_File(vd, path)
 		error('Path is not pointing to a file');
 	end
 
-end
+ed
