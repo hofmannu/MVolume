@@ -25,4 +25,4 @@ function Load_From_File(vd, path)
 		error('Path is not pointing to a file');
 	end
 
-ed
+end
