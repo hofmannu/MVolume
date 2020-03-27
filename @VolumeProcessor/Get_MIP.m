@@ -7,7 +7,7 @@
 
 function mip = Get_MIP(vp, varargin)
 
-	method = 'percentile';
+	method = 'simple';
 	%   percentile - use outermost percentile as max declaration
 	%   simple - find highest polarity value
 	percentile = 0.005;
@@ -25,21 +25,31 @@ function mip = Get_MIP(vp, varargin)
 				polarity = varargin{iargin + 1};
 			case 'cutoff'
 				cutoff = varargin{iargin + 1};
+			case 'dim'
+				dim = varargin{iargin + 1};
 			otherwise
 				error('Unknown option passed');
 		end
 	end
 
-	switch 'method'
+	vol = vp.volume.vol;
+
+	switch method
 		case 'simple'
 			switch polarity
 				case 'pos'
-					
+					vol(vol < 0) = 0;
+				case 'neg'
+					vol = -vol;
+					vol(vol < 0) = 0;
+				case 'both'
+					vol = abs(vol);		
 				otherwise
 					error('Invalid polarity option');
 			end
+			mip = squeeze(max(vol, [], dim));
 		case 'percentile'
-
+			error('Not implemented yet');
 		otherwise
 			error('Invalid specified method');
 	end

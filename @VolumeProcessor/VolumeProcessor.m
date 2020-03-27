@@ -25,7 +25,7 @@ classdef VolumeProcessor < handle
 		s = Get_Sharpness(vp, varargin);
 		Deconvolve(vp, varargin); % applies a threedimensional deconvolution
 		Normalize(vp, varargin); % advanced normalization
-		Get_MIP(vp, varargin);
+		mip = Get_MIP(vp, varargin);
 		Power_Law_Transform(vp, varargin);
 		Median_Filter(vp, varargin); % apply a median filter to the volume
 
