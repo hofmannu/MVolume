@@ -7,11 +7,27 @@
 
 function Preview(vp, varargin)
 
+	% default options
+	method = 'simple'; % passed to Get_MIP function	
+	polarity = 'both'; % passed through to Get_MIP function
+
+	% process input arguments
+	for iargin=1:2:(nargin -1)
+		switch varargin{iargin}
+			case 'method'
+				method = varargin{iargin + 1};
+			case 'polarity'
+				polarity = varargin{iargin + 1};
+			otherwise
+				error('Unknown option passed');
+		end
+	end
+
 	figure('Name', 'Volumetric dataset preview', 'NumberTitle', 0);
 
 	ax1 = subplot(2, 2, 1);
-
-	imagesc(vp.volume.vecX, vp.volume.vecY, vp.Get_MIP('dim', 1));
+	mipz = vp.Get_MIP('dim', 1, 'method', method, 'polarity', polarity);
+	imagesc(vp.volume.vecY, vp.volume.vecX, mipz);
 	title('MIPz');
 	xlabel('y [m]');
 	ylabel('x [m]');
@@ -20,8 +36,8 @@ function Preview(vp, varargin)
 	colorbar;
 
 	ax2 = subplot(2, 2, 2);
-	
-	imagesc(vp.volume.vecY, vp.volume.vecZ, vp.Get_MIP('dim', 2))
+	mipx = vp.Get_MIP('dim', 2, 'method', method, 'polarity', polarity);
+	imagesc(vp.volume.vecY, vp.volume.vecZ, mipx)
 	title('MIPx');
 	xlabel('y [m]');
 	ylabel('z [m]');
@@ -30,8 +46,8 @@ function Preview(vp, varargin)
 	colorbar;
 
 	ax3 = subplot(2, 2, 3);
-	
-	imagesc(vp.volume.vecX, vp.volume.vecZ, vp.Get_MIP('dim', 3));
+	mipy = vp.Get_MIP('dim', 3, 'method', method, 'polarity', polarity);	
+	imagesc(vp.volume.vecX, vp.volume.vecZ, mipy);
 	title('MIPy');
 	xlabel('x [m]');
 	ylabel('z [m]');
