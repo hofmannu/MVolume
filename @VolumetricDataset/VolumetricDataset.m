@@ -12,6 +12,7 @@ classdef VolumetricDataset < handle
     dr(1, 3) single {mustBePositive, mustBeFinite} = [1, 1, 1]; % [z, x, y]
     origin(1, 3) single {mustBeFinite} = [0, 0, 0]; % [z, x, y]
   	name(1, :) char;
+    flagVerbose(1, 1) logical = 0;
 	end
 
   properties (Dependent = true)
