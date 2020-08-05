@@ -1,11 +1,12 @@
 # MVolume
-A object oriented approach in MATLAB to store, process, and access volumetric datasets. Initiated to handle optoacoustic datasets but could potentially be used in other fields. Still in an experimental state and not fully tested yet. 
+An object oriented approach in MATLAB to store, process, and access volumetric datasets. Initiated to handle optoacoustic datasets but could potentially be used in other fields. Still in an experimental state and not fully tested yet. 
 
 # Features - VolumetricDataset
 
 Implemented:
 *  Convenient definition of datasets based on resolution and origin
 *  Automated dependent properties like volume size, max, min, vectors
+*  Export of volumetrix datasets into different formats like `mat` or `h5`
 
 Planned:
 *  Derived classes for different imaging modalities including more specific properties
@@ -20,11 +21,11 @@ Implemented:
 *  Memory efficient resampling to differet grid sizes
 *  Export function for paraview (based on vtkwrite from MATLAB fileexchange)
 
+
 Planned:
 *  Median and mean filtering 
 *  GPU based deconvolution options
 *  GPU based vesselness filtering
 *  Histogram equilization over full volume instead of CLAHE3D
 *  Amira export
-*  `*.h5` export option
 *  More memory efficient saving and loading of VolumetricDataset class
