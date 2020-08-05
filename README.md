@@ -6,7 +6,7 @@ An object oriented approach in MATLAB to store, process, and access volumetric d
 Implemented:
 *  Convenient definition of datasets based on resolution and origin
 *  Automated dependent properties like volume size, max, min, vectors
-*  Export of volumetrix datasets into different formats like `mat` or `h5`
+*  Export of volumetric datasets into different formats like `mat` or `h5`
 
 Planned:
 *  Derived classes for different imaging modalities including more specific properties
