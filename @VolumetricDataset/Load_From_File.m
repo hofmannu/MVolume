@@ -6,21 +6,18 @@
 function Load_From_File(vd, path)
 
 	if isfile(path)
-		load(path, 'vol');
-		vd.vol = vol;
-		clear vol;
 
-		load(path, 'dr');
-		vd.dr = dr;
-		clear dr;
+		mFile = matfile(path);
+		vd.vol = mFile.vol;
+		vd.dr = mFile.dr;
+		vd.origin = mFile.origin;
 
-		load(path, 'origin');
-		vd.origin = origin;
-		clear origin;
+		% load name of dataset if present in file, otherwise ignore (not essential)
+		testMe = whos(mFile, 'name');
+		if ~isempty(testMe)
+			vd.name = mFile.name;
+		end
 
-		load(path, 'name');
-		vd.name = name;
-		clear name;
 	else
 		error('Path is not pointing to a file');
 	end
