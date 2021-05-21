@@ -6,21 +6,24 @@
 function Load_From_File(vd, path)
 
 	if isfile(path)
-		load(path, 'vol');
-		vd.vol = vol;
-		clear vol;
+		if strcmp(path(end-2:end), '.h5')
+			vd.dr = h5read(path, '/dr');
+			vd.origin = h5read(path, '/origin');
+			vd.vol = h5read(path, '/vol');
+		elseif strcmp(path(end-3:end), '.mat')
+			mFile = matfile(path);
+			vd.vol = mFile.vol;
+			vd.dr = mFile.dr;
+			vd.origin = mFile.origin;
 
-		load(path, 'dr');
-		vd.dr = dr;
-		clear dr;
-
-		load(path, 'origin');
-		vd.origin = origin;
-		clear origin;
-
-		load(path, 'name');
-		vd.name = name;
-		clear name;
+			% load name of dataset if present in file, otherwise ignore (not essential)
+			testMe = whos(mFile, 'name');
+			if ~isempty(testMe)
+				vd.name = mFile.name;
+			end
+		else
+			error('invalid file type');
+		end
 	else
 		error('Path is not pointing to a file');
 	end
