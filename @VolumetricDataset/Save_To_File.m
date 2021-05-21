@@ -45,6 +45,10 @@ function Save_To_File(vd, filePath, varargin)
 				name = vd.name;
 				save(filePath, 'name', '-append');
 				clear name;
+
+				dim = uint64(size(vd.vol));
+				save(filePath, 'dim', '-append');
+				clear dim;
 			case 'h5'
 				% in case file already exists we should delete it first
 				if isfile(filePath)
