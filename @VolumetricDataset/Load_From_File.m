@@ -12,7 +12,9 @@ function Load_From_File(vd, path)
 			vd.vol = h5read(path, '/vol');
 		elseif strcmp(path(end-3:end), '.mat')
 			mFile = matfile(path);
-			vd.vol = mFile.vol;
+			vol = mFile.vol;
+			dim = mFile.dim;
+			vd.vol = reshape(vol, dim);
 			vd.dr = mFile.dr;
 			vd.origin = mFile.origin;
 
