@@ -10,6 +10,7 @@ function Load_From_File(vd, path)
 			vd.dr = h5read(path, '/dr');
 			vd.origin = h5read(path, '/origin');
 			vd.vol = h5read(path, '/vol');
+			% all the different mat file formats go here
 		elseif strcmp(path(end-3:end), '.mat')
 			mFile = matfile(path);
 
@@ -18,7 +19,20 @@ function Load_From_File(vd, path)
 
 			if ursFile
 				vol = mFile.vol;
-				dim = mFile.dim;
+				
+				% check if dim exists, if not try to analyze vol size instead
+				if ~isempty(whos(mFile, 'dim'))
+					dim = mFile.dim;
+					if size(dim, 1) == 3
+						dim = dim';
+					end
+				else
+					dim = size(vol); % automatically extract dimensionality from vol matrix
+					if length(dim) ~= 3 % should be a 1 x 3 vector, otherwise throw an error
+						error('Could not find dim variable and vol seems misshaped.');
+					end
+				end
+				
 				vd.vol = reshape(vol, dim);
 				vd.dr = mFile.dr;
 				vd.origin = mFile.origin;
