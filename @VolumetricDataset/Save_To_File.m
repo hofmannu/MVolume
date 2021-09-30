@@ -30,7 +30,7 @@ function Save_To_File(vd, filePath, varargin)
 	else
 		switch fileType
 			case 'mat'
-				vol = vd.vol;
+				vol = vd.vol(:)';
 				save(filePath, 'vol', '-v7.3', '-nocompression');
 				clear vol;
 
