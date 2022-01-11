@@ -71,6 +71,8 @@ function Save_To_File(vd, filePath, varargin)
 				h5create(filePath, '/dim', 3, 'Datatype', 'uint32');
 				h5write(filePath, '/dim', uint32(size(vd.vol)));
 
+			case 'vtk'
+
 			otherwise
 				error('Export type not implemented');
 		end

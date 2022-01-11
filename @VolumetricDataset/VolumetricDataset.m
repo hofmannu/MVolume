@@ -38,6 +38,8 @@ classdef VolumetricDataset < handle
 	end
 
   methods
+    Export_Paraview(vd, varargin);
+
     function volSize = get.volSize(vd)
       volSize = size(vd.vol);
     end

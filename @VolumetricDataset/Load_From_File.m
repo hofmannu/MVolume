@@ -10,13 +10,13 @@ function Load_From_File(vd, path)
 			vd.dr = h5read(path, '/dr');
 			vd.origin = h5read(path, '/origin');
 			vd.vol = h5read(path, '/vol');
-			dim = h5read(path, '/dim')
+			dim = h5read(path, '/dim');
 			if size(dim, 1) == 3
 				dim = dim';
 			end
 
 			vd.vol = reshape(vd.vol, dim);
-			% all the different mat file formats go here
+			
 		elseif strcmp(path(end-3:end), '.mat')
 			mFile = matfile(path);
 
@@ -85,7 +85,8 @@ function Load_From_File(vd, path)
 			error('invalid file type');
 		end
 	else
-		error('Path is not pointing to a file');
+		msgText = ['Path is not pointing to a file: ', char(path)];
+		error(msgText);
 	end
 
 end
